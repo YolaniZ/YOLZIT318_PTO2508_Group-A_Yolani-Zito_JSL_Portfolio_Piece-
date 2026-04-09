@@ -8,7 +8,7 @@ A fully functional Kanban task management app built with vanilla JavaScript (ES 
 
 ## Presentation
 
-🎥 [Recorded Presentation](#) *(replace with your video link)*
+🎥 [Recorded Presentation]() *(replace with your video link)*
 
 ## Features
 
