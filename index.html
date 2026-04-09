@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <button class="mobile-logo-btn" id="mobileMenuBtn" aria-label="Open menu">
+      <img src="assets/logo-mobile.svg" alt="Kanban Logo" class="logo-img" />
+    </button>
+    <span class="mobile-board-title" id="mobileBoardTitle">Platform Launch</span>
+    <button class="mobile-add-btn" id="mobileAddTaskBtn" aria-label="Add task">+</button>
+  </header>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- Mobile Menu (Sidebar) -->
+  <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="sidebar-logo">
+      <img src="assets/logo-dark.svg" alt="Kanban" class="logo-dark" />
+      <img src="assets/logo-light.svg" alt="Kanban" class="logo-light" />
+    </div>
+    <p class="boards-label">ALL BOARDS (<span id="mobileBoardCount">0</span>)</p>
+    <ul class="boards-list" id="mobileBoardsList"></ul>
+    <div class="sidebar-bottom">
+      <div class="theme-toggle-wrap">
+        <img src="assets/icon-light-theme.svg" alt="Light" />
+        <label class="toggle-switch" for="mobileThemeToggle">
+          <input type="checkbox" id="mobileThemeToggle" />
+          <span class="slider"></span>
+        </label>
+        <img src="assets/icon-dark-theme.svg" alt="Dark" />
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-layout">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logo-dark.svg" alt="Kanban" class="logo-dark" />
+        <img src="assets/logo-light.svg" alt="Kanban" class="logo-light" />
+      </div>
+      <p class="boards-label">ALL BOARDS (<span id="boardCount">0</span>)</p>
+      <ul class="boards-list" id="boardsList"></ul>
+      <div class="sidebar-bottom">
+        <div class="theme-toggle-wrap">
+          <img src="assets/icon-light-theme.svg" alt="Light" />
+          <label class="toggle-switch" for="themeToggle">
+            <input type="checkbox" id="themeToggle" />
+            <span class="slider"></span>
+          </label>
+          <img src="assets/icon-dark-theme.svg" alt="Dark" />
+        </div>
+        <button class="hide-sidebar-btn" id="hideSidebarBtn">
+          <img src="assets/icon-hide-sidebar.svg" alt="" aria-hidden="true" />
+          Hide Sidebar
+        </button>
+      </div>
+    </aside>
+
+    <!-- Show Sidebar Button (when hidden) -->
+    <button class="show-sidebar-btn" id="showSidebarBtn" aria-label="Show sidebar">
+      <img src="assets/icon-show-sidebar.svg" alt="" aria-hidden="true" />
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- Desktop Top Bar -->
+      <div class="topbar">
+        <h1 class="board-title" id="boardTitle">Platform Launch</h1>
+        <div class="topbar-actions">
+          <button class="btn-primary" id="addTaskBtn">+ Add New Task</button>
+        </div>
+      </div>
+
+      <!-- Board Columns -->
+      <div class="board" id="board">
+        <div class="loading-state" id="loadingState">
+          <p>Loading tasks...</p>
+        </div>
+        <div class="error-state hidden" id="errorState">
+          <p>Failed to load tasks. Please try again.</p>
+          <button class="btn-primary" id="retryBtn">Retry</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Task Detail / Edit Modal -->
+  <div class="modal-overlay hidden" id="taskModalOverlay" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div class="modal task-modal">
+      <div class="modal-header">
+        <h2 id="taskModalTitle">Task Title</h2>
+        <div class="modal-menu-wrap">
+          <button class="modal-menu-btn" id="taskMenuBtn" aria-label="Task options">&#8942;</button>
+          <div class="modal-dropdown hidden" id="taskDropdown">
+            <button id="editTaskBtn">Edit Task</button>
+            <button id="deleteTaskBtn" class="danger">Delete Task</button>
+          </div>
+        </div>
+      </div>
+      <p class="task-description" id="taskModalDesc"></p>
+      <div class="subtasks-section">
+        <p class="subtasks-label">Subtasks (<span id="subtasksDone">0</span> of <span id="subtasksTotal">0</span>)</p>
+        <ul class="subtasks-list" id="subtasksList"></ul>
+      </div>
+      <div class="form-group">
+        <label for="taskStatusSelect">Current Status</label>
+        <select id="taskStatusSelect" class="status-select"></select>
+      </div>
+      <button class="btn-primary full-width" id="saveStatusBtn">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div class="modal-overlay hidden" id="editModalOverlay" role="dialog" aria-modal="true" aria-labelledby="editModalHeading">
+    <div class="modal edit-modal">
+      <h2 id="editModalHeading">Edit Task</h2>
+      <div class="form-group">
+        <label for="editTitle">Title</label>
+        <input type="text" id="editTitle" placeholder="e.g. Take coffee break" />
+      </div>
+      <div class="form-group">
+        <label for="editDesc">Description</label>
+        <textarea id="editDesc" placeholder="e.g. It's always good to take a break..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Subtasks</label>
+        <ul class="edit-subtasks-list" id="editSubtasksList"></ul>
+        <button class="btn-secondary full-width" id="addSubtaskBtn">+ Add New Subtask</button>
+      </div>
+      <div class="form-group">
+        <label for="editStatus">Status</label>
+        <select id="editStatus" class="status-select"></select>
+      </div>
+      <div class="form-group">
+        <label for="editPriority">Priority</label>
+        <select id="editPriority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <button class="btn-primary full-width" id="saveEditBtn">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div class="modal-overlay hidden" id="addModalOverlay" role="dialog" aria-modal="true" aria-labelledby="addModalHeading">
+    <div class="modal edit-modal">
+      <h2 id="addModalHeading">Add New Task</h2>
+      <div class="form-group">
+        <label for="addTitle">Title</label>
+        <input type="text" id="addTitle" placeholder="e.g. Take coffee break" />
+      </div>
+      <div class="form-group">
+        <label for="addDesc">Description</label>
+        <textarea id="addDesc" placeholder="e.g. It's always good to take a break..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Subtasks</label>
+        <ul class="edit-subtasks-list" id="addSubtasksList"></ul>
+        <button class="btn-secondary full-width" id="addNewSubtaskBtn">+ Add New Subtask</button>
+      </div>
+      <div class="form-group">
+        <label for="addStatus">Status</label>
+        <select id="addStatus" class="status-select"></select>
+      </div>
+      <div class="form-group">
+        <label for="addPriority">Priority</label>
+        <select id="addPriority">
+          <option value="High">High</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <button class="btn-primary full-width" id="confirmAddTaskBtn">Create Task</button>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay hidden" id="deleteModalOverlay" role="dialog" aria-modal="true" aria-labelledby="deleteModalHeading">
+    <div class="modal delete-modal">
+      <h2 id="deleteModalHeading" class="danger-title">Delete this task?</h2>
+      <p id="deleteModalMsg"></p>
+      <div class="delete-actions">
+        <button class="btn-danger" id="confirmDeleteBtn">Delete</button>
+        <button class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
