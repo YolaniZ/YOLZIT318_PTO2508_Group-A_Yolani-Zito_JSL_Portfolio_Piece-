@@ -3,7 +3,7 @@
 
 A fully functional Kanban task management app built with vanilla JavaScript (ES modules), HTML, and CSS.
 
-## Live Demo
+### Live Demo
 
 🔗 [Deployed App](https://kanban-jsl-portfolio.netlify.app)
 
