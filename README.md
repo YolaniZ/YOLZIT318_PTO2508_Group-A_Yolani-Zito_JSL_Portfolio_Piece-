@@ -1,54 +1,110 @@
-# Kanban App — JSL Portfolio Piece
 
-A fully functional Kanban task management app built with vanilla JavaScript (ES modules), HTML, and CSS.
+# JSLPP Kanban Board Application
 
-### Live Demo
+A fully functional, responsive Kanban task management application built with modular Vanilla JavaScript.  
+The app dynamically fetches tasks from an external API, persists data using localStorage, and provides rich user interactions including task editing, deletion, sidebar control, mobile navigation, and theme toggling.
 
-🔗 [Deployed App](https://kanban-jsl-portfolio.netlify.app)
+This project was developed as part of the **JSLPP Portfolio Piece** and is deployed to Netlify.
 
-## Presentation
+---
 
-🎥 [Recorded Presentation]() *(replace with your video link)*
+## 🔗 Live Deployment
+**Netlify URL:**  
+👉(https://kanban-jsl-portfolio.netlify.app)
+---
 
-## Features
+## 🎥 Recorded Presentation (5–10 Minutes)
+A live walkthrough demonstrating how the project meets each user story, including code structure and feature implementation.
 
-- Fetches tasks dynamically from the [JSL Kanban API](https://jsl-kanban-api.vercel.app/)
-- Loading and error states during data fetch
-- Local storage persistence across page reloads
-- Task editing (title, description, status, subtasks, priority)
-- Task deletion with confirmation dialog
-- Subtask completion tracking
-- Priority system: High / Medium / Low with visual badges and column sorting
-- Collapsible desktop sidebar
-- Mobile-responsive menu accessible from the header logo
-- Dark / Light theme toggle (persisted in local storage)
-- Modular, JSDoc-documented codebase
+👉 **Presentation Link:**  
+https://YOUR-PUBLIC-RECORDING-LINK
 
-## Project Structure
+> The presentation showcases task fetching, localStorage persistence, modal editing, sidebar/mobile interaction, and theme toggling.
 
-```
-├── index.html
-├── styles.css
-├── netlify.toml
-├── assets/          # SVG icons and logos
-└── scripts/
-    ├── main.js      # Entry point & orchestration
-    ├── api.js       # API fetching
-    ├── storage.js   # Local storage helpers
-    ├── render.js    # Board & card rendering
-    ├── modal.js     # All modal dialogs
-    ├── sidebar.js   # Sidebar & theme toggle
-    └── utils.js     # Shared utilities
-```
 
-## Running Locally
 
-No build step required — open `index.html` directly in a browser, or serve with any static file server:
+## ✅ Key Features
 
-```bash
-npx serve .
-```
+### 📡 Data Fetching & Loading States
+- Tasks are fetched dynamically from:  
+  **https://jsl-kanban-api.vercel.app/**
+- Displays a loading message while data is being fetched
+- Displays an error message if the API request fails
+- Removes all hard-coded task data
 
-## Deployment
+---
 
-Deployed via Netlify. The `netlify.toml` sets the publish directory to the project root.
+### 💾 Data Persistence (localStorage)
+- Tasks are saved to localStorage after fetching
+- All edits and deletions update localStorage immediately
+- Tasks persist across page reloads
+- Theme preference is also saved and restored on reload
+
+---
+
+### ✏️ Task Editing & Deletion
+- Tasks can be edited in a modal
+  - Title
+  - Description
+  - Status (To Do / Doing / Done)
+- Changes are reflected immediately on the board and in localStorage
+- Tasks can be deleted from within the modal
+- A confirmation dialog is shown before deletion
+
+---
+
+### 📂 Sidebar Interaction
+- Desktop sidebar can be toggled (show/hide)
+- Sidebar contains all required UI elements per Figma design
+- State is maintained for better usability
+
+---
+
+### 📱 Mobile Menu (Sidebar)
+- Mobile sidebar functions as a slide-down menu
+- Accessible via the app logo on smaller screens
+- Fully responsive and matches desktop sidebar functionality
+- Menu can be closed to restore full task board view
+
+---
+
+### 🌗 Theme Toggle (Dark / Light Mode)
+- Switch between dark and light themes
+- Toggle available in:
+  - Desktop sidebar
+  - Mobile menu
+- Theme applies to all UI elements ensuring accessibility and readability
+- Theme preference persists across sessions
+
+---
+
+### ⭐ Stretch Goal: Task Priority (Optional)
+- Tasks support priority levels:
+  - High
+  - Medium
+  - Low
+- Priority is visually displayed on task cards
+- Priority is:
+  - Editable in the modal
+  - Stored in localStorage
+  - Persisted across reloads
+- Tasks are automatically sorted within each status column:
+  - **High → Medium → Low**
+- Correct order is maintained after refreshing the page
+
+---
+
+## 🧠 Code Quality & Architecture
+
+The application is built using a modular JavaScript architecture to ensure maintainability and scalability.
+
+🙌 Final Notes
+This project demonstrates:
+
+Real-world data handling
+Persistent state management
+Responsive UI design
+Clean, maintainable JavaScript architecture
+Production-ready deployment
+
+Thank you for reviewing this project.
